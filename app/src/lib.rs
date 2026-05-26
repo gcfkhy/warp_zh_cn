@@ -577,6 +577,10 @@ fn apply_scroll_multiplier(event: &mut Event, app: &AppContext) {
 
 /// Runs the app. If a subcommand was requested, it'll be run instead of the main application.
 pub fn run() -> Result<()> {
+    // Initialize i18n subsystem before any UI code runs.
+    // Uses system language detection; settings may override later.
+    i18n::initialize_with_defaults("en-US");
+
     // Perform any necessary platform-specific initialization.
     platform::init();
 

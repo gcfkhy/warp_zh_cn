@@ -29,6 +29,8 @@
 
 <h1></h1>
 
+> 🌐 **中文版**：本仓库提供了完整的中文翻译文档 — [README_zh-CN.md](README_zh-CN.md) | [WARP_zh-CN.md](WARP_zh-CN.md) | [CONTRIBUTING_zh-CN.md](CONTRIBUTING_zh-CN.md) | [FAQ_zh-CN.md](FAQ_zh-CN.md)
+
 ## About
 
 [Warp](https://www.warp.dev) is an agentic development environment, born out of the terminal. Use Warp's built-in coding agent, or bring your own CLI agent (Claude Code, Codex, Gemini CLI, and others).

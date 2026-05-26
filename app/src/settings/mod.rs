@@ -1,4 +1,5 @@
 mod accessibility;
+use i18n::tr;
 pub mod ai;
 mod alias_expansion;
 pub mod app_icon;
@@ -13,6 +14,7 @@ mod editor;
 mod emacs_bindings;
 pub mod font;
 mod gpu;
+pub mod i18n;
 pub mod import;
 mod init;
 pub mod initializer;
@@ -49,6 +51,7 @@ pub use editor::*;
 pub use emacs_bindings::*;
 pub use font::*;
 pub use gpu::*;
+pub use i18n::*;
 pub use init::*;
 pub use input::*;
 pub use input_mode::*;
@@ -98,17 +101,17 @@ impl SettingsFileError {
     pub fn heading_and_description(&self) -> (String, String) {
         match self {
             Self::FileParseFailed(_) => (
-                "Your settings file contains an error.".to_owned(),
-                format!("{self}. Open the file to fix it."),
+                tr!("settings-error-heading-single"),
+                format!("{self}. {}", tr!("settings-error-open-to-fix")),
             ),
             Self::InvalidSettings(keys) => match keys.len() {
                 1 => (
-                    "Your settings file contains an error.".to_owned(),
-                    format!("{self}. The default value is being used."),
+                    tr!("settings-error-heading-single"),
+                    format!("{self}. {}", tr!("settings-error-default-used")),
                 ),
                 _ => (
-                    "Your settings file contains errors.".to_owned(),
-                    format!("{self}. Default values are being used."),
+                    tr!("settings-error-heading-multiple"),
+                    format!("{self}. {}", tr!("settings-error-defaults-used")),
                 ),
             },
         }
@@ -220,7 +223,7 @@ pub enum CtrlTabBehavior {
 }
 
 impl CtrlTabBehavior {
-    pub fn as_dropdown_label(&self) -> &str {
+    pub fn as_dropdown_label(&self) -> &'static str {
         match self {
             Self::ActivatePrevNextTab => "Activate previous/next tab",
             Self::CycleMostRecentSession => "Cycle most recent session",

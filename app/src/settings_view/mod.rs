@@ -10,6 +10,7 @@ use billing_and_usage_page::BillingAndUsagePageEvent;
 use code_page::{CodeSettingsPageAction, CodeSettingsPageEvent, CodeSubpage};
 use environments_page::EnvironmentsPageView;
 use features_page::{FeaturesPageView, FeaturesSettingsPageEvent};
+use i18n::tr;
 use itertools::Itertools as _;
 use keybindings::KeybindingsView;
 use main_page::{MainPageAction, MainSettingsPageEvent, MainSettingsPageView};
@@ -262,23 +263,32 @@ use crate::util::bindings::custom_tag_to_keystroke;
 
 impl Display for SettingsSection {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            SettingsSection::BillingAndUsage => write!(f, "Billing and usage"),
-            SettingsSection::Keybindings => write!(f, "Keyboard shortcuts"),
-            SettingsSection::SharedBlocks => write!(f, "Shared blocks"),
-            SettingsSection::MCPServers => write!(f, "MCP Servers"),
-            SettingsSection::WarpDrive => write!(f, "Warp Drive"),
-            SettingsSection::WarpAgent => write!(f, "Warp Agent"),
-            SettingsSection::AgentProfiles => write!(f, "Profiles"),
-            SettingsSection::AgentMCPServers => write!(f, "MCP servers"),
-            SettingsSection::Knowledge => write!(f, "Knowledge"),
-            SettingsSection::ThirdPartyCLIAgents => write!(f, "Third party CLI agents"),
-            SettingsSection::CodeIndexing => write!(f, "Indexing and projects"),
-            SettingsSection::EditorAndCodeReview => write!(f, "Editor and Code Review"),
-            SettingsSection::CloudEnvironments => write!(f, "Environments"),
-            SettingsSection::OzCloudAPIKeys => write!(f, "Oz Cloud API Keys"),
-            _ => write!(f, "{self:?}"),
-        }
+        let name = match self {
+            SettingsSection::About => tr!("setting-section-about"),
+            SettingsSection::Account => tr!("setting-section-account"),
+            SettingsSection::Appearance => tr!("setting-section-appearance"),
+            SettingsSection::Features => tr!("setting-section-features"),
+            SettingsSection::Keybindings => tr!("setting-section-keyboard-shortcuts"),
+            SettingsSection::Privacy => tr!("setting-section-privacy"),
+            SettingsSection::Referrals => tr!("setting-section-referrals"),
+            SettingsSection::BillingAndUsage => tr!("setting-section-billing-and-usage"),
+            SettingsSection::SharedBlocks => tr!("setting-section-shared-blocks"),
+            SettingsSection::Teams => tr!("setting-section-teams"),
+            SettingsSection::MCPServers => tr!("setting-section-mcp-servers"),
+            SettingsSection::WarpDrive => tr!("setting-section-warp-drive"),
+            SettingsSection::WarpAgent => tr!("setting-section-warp-agent"),
+            SettingsSection::AgentProfiles => tr!("setting-section-profiles"),
+            SettingsSection::AgentMCPServers => tr!("setting-section-mcp-servers-lower"),
+            SettingsSection::Knowledge => tr!("setting-section-knowledge"),
+            SettingsSection::ThirdPartyCLIAgents => tr!("setting-section-third-party-cli-agents"),
+            SettingsSection::CodeIndexing => tr!("setting-section-indexing-and-projects"),
+            SettingsSection::EditorAndCodeReview => tr!("setting-section-editor-and-code-review"),
+            SettingsSection::CloudEnvironments => tr!("setting-section-environments"),
+            SettingsSection::OzCloudAPIKeys => tr!("setting-section-oz-cloud-api-keys"),
+            SettingsSection::AI => tr!("setting-section-ai"),
+            SettingsSection::Code => tr!("setting-section-code"),
+        };
+        write!(f, "{name}")
     }
 }
 
@@ -1223,19 +1233,19 @@ impl SettingsView {
         let mut nav_items = vec![
             SettingsNavItem::Page(SettingsSection::Account),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Agents",
+                tr!("setting-umbrella-agents"),
                 SettingsSection::ai_subpages().to_vec(),
             )),
             SettingsNavItem::Page(SettingsSection::BillingAndUsage),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Code",
+                tr!("setting-umbrella-code"),
                 vec![
                     SettingsSection::CodeIndexing,
                     SettingsSection::EditorAndCodeReview,
                 ],
             )),
             SettingsNavItem::Umbrella(SettingsUmbrella::new(
-                "Cloud platform",
+                tr!("setting-umbrella-cloud-platform"),
                 vec![
                     SettingsSection::CloudEnvironments,
                     SettingsSection::OzCloudAPIKeys,
