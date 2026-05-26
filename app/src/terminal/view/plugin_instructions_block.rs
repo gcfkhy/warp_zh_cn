@@ -23,6 +23,7 @@ use crate::ui_components::icons::Icon;
 use crate::view_components::action_button::{ActionButton, ButtonSize, NakedTheme};
 use crate::view_components::DismissibleToast;
 use crate::workspace::{ToastStack, WorkspaceAction};
+use i18n::tr;
 
 pub(crate) struct PluginInstructionsBlock {
     instructions: &'static PluginInstructions,
@@ -101,7 +102,7 @@ impl PluginInstructionsBlock {
         let desc_element: Box<dyn Element> = if let Some(url) = link {
             let fragments = vec![
                 FormattedTextFragment::plain_text(format!("{description} ")),
-                FormattedTextFragment::hyperlink("Learn more", url),
+                FormattedTextFragment::hyperlink(tr!("terminal-plugin-learn-more"), url),
             ];
             let formatted = FormattedText::new(vec![FormattedTextLine::Line(fragments)]);
             FormattedTextElement::new(
@@ -197,8 +198,9 @@ impl View for PluginInstructionsBlock {
 
         let subtitle_text = if self.is_remote_session {
             format!(
-                "{} Be sure to run these commands on your remote machine.",
-                self.instructions.subtitle
+                "{} {}",
+                self.instructions.subtitle,
+                tr!("terminal-plugin-remote-machine-note")
             )
         } else {
             self.instructions.subtitle.to_owned()
@@ -293,7 +295,7 @@ impl TypedActionView for PluginInstructionsBlock {
                     let window_id = ctx.window_id();
                     ToastStack::handle(ctx).update(ctx, |toast_stack, ctx| {
                         toast_stack.add_ephemeral_toast(
-                            DismissibleToast::success("Copied to clipboard".to_owned()),
+                            DismissibleToast::success(tr!("terminal-plugin-copied-to-clipboard")),
                             window_id,
                             ctx,
                         );

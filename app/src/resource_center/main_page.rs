@@ -34,6 +34,7 @@ use crate::server::telemetry::TelemetryEvent;
 use crate::settings::Settings;
 use crate::themes::theme::{Blend, Fill as FillTheme};
 use crate::workspace::WorkspaceAction;
+use i18n::tr;
 
 const SEND_SVG_PATH: &str = "bundled/svg/send.svg";
 
@@ -390,7 +391,7 @@ impl ResourceCenterMainView {
                 .with_text_and_icon_label(
                     TextAndIcon::new(
                         TextAndIconAlignment::IconFirst,
-                        "Invite a friend to Warp",
+                        &tr!("resource-center-invite"),
                         Icon::new(SEND_SVG_PATH, appearance.theme().accent()),
                         MainAxisSize::Max,
                         MainAxisAlignment::Center,
@@ -429,7 +430,7 @@ impl ResourceCenterMainView {
 
                     appearance
                         .ui_builder()
-                        .wrappable_text("Mark all as read", false)
+                        .wrappable_text(&tr!("resource-center-mark-all-read"), false)
                         .with_style(style)
                         .build()
                         .finish()

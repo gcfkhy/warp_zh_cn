@@ -35,12 +35,10 @@ use crate::terminal::view::{ContextMenuAction, InputType, PromptSuggestion, Term
 use crate::ui_components::blended_colors;
 use crate::ui_components::icons::Icon as WarpUIIcon;
 use crate::util::bindings::keybinding_name_to_keystroke;
+use i18n::tr;
 
 const INLINE_BANNER_SPACING: f32 = 8.;
 const INLINE_BANNER_BUTTON_PADDING: f32 = 8.;
-
-const DELINQUENT_DUE_TO_PAYMENT_ISSUE_TOOLTIP_MESSAGE: &str = "Restricted due to payment issue";
-const OUT_OF_REQUESTS_TOOLTIP_MESSAGE: &str = "Out of credits";
 
 /// Types of zero-state prompt suggestions.
 #[derive(Debug, Copy, Clone, Serialize)]
@@ -66,20 +64,14 @@ impl ZeroStatePromptSuggestionType {
     /// Constant for the number of zero-state prompt suggestion types.
     pub const COUNT: usize = 5;
 
-    pub fn query(&self) -> &'static str {
+    pub fn query(&self) -> String {
         match self {
-            Self::Explain => "Explain this to me.",
-            Self::Fix => "Help me fix this.",
-            Self::Install => {
-                "Help me install a binary/dependency. What information do I need to provide to you to do this?"
-            }
-            Self::Code => {
-                "Help me write some code. What information do I need to provide to you to do this?"
-            }
-            Self::Deploy => {
-                "Help me deploy my project. What information do I need to provide to you to do this?"
-            }
-            Self::SomethingElse => "Something else?",
+            Self::Explain => tr!("banner-prompt-query-explain"),
+            Self::Fix => tr!("banner-prompt-query-fix"),
+            Self::Install => tr!("banner-prompt-query-install"),
+            Self::Code => tr!("banner-prompt-query-code"),
+            Self::Deploy => tr!("banner-prompt-query-deploy"),
+            Self::SomethingElse => tr!("banner-prompt-query-something-else"),
         }
     }
 
@@ -295,14 +287,14 @@ fn get_tooltip_text_for_alert_state(alert_state: &PromptAlertState) -> Option<St
     // so we can keep the tooltip's text relatively minimal and just capture broad groups.
     match alert_state {
         PromptAlertState::DelinquentDueToPaymentIssue => {
-            Some(DELINQUENT_DUE_TO_PAYMENT_ISSUE_TOOLTIP_MESSAGE.to_string())
+            Some(tr!("banner-prompt-payment-restricted"))
         }
         PromptAlertState::RequestLimitReached
         | PromptAlertState::AnonymousUserRequestLimitHardGate
         | PromptAlertState::AnonymousUserRequestLimitSoftGate
         | PromptAlertState::OveragesToggleableButNotEnabled
         | PromptAlertState::MonthlyOveragesSpendLimitReached => {
-            Some(OUT_OF_REQUESTS_TOOLTIP_MESSAGE.to_string())
+            Some(tr!("banner-prompt-out-of-credits"))
         }
         _ => None,
     }

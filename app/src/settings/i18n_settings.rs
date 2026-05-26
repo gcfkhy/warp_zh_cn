@@ -5,12 +5,13 @@
 //! and can be changed via the Appearance settings page.
 
 use settings::macros::define_settings_group;
-use settings::{SupportedPlatforms, SyncToCloud};
+use settings::{RespectUserSyncSetting, SupportedPlatforms, SyncToCloud};
 
 /// Available display languages.
 #[derive(
     Clone,
     Debug,
+    Default,
     PartialEq,
     Eq,
     serde::Serialize,
@@ -82,7 +83,7 @@ define_settings_group!(I18nSettings, settings: [
        type: DisplayLanguage,
        default: DisplayLanguage::detect_from_system(),
        supported_platforms: SupportedPlatforms::ALL,
-       sync_to_cloud: SyncToCloud::Always,
+       sync_to_cloud: SyncToCloud::Globally(RespectUserSyncSetting::Yes),
        private: false,
        toml_path: "appearance.display_language",
        description: "The display language for the Warp user interface.",

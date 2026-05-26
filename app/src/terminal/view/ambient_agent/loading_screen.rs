@@ -1,5 +1,6 @@
 //! Loading screen UI for cloud mode initialization.
 
+use i18n::tr;
 use markdown_parser::{FormattedText, FormattedTextFragment, FormattedTextLine};
 use warp_core::ui::appearance::Appearance;
 use warp_core::ui::theme::AnsiColorIdentifier;
@@ -49,7 +50,7 @@ pub fn render_cloud_mode_loading_screen(
         // Add link at the end if it exists
         if let Some(link_target) = tip.link() {
             fragments.push(FormattedTextFragment::plain_text(" "));
-            fragments.push(FormattedTextFragment::hyperlink("Learn more", link_target));
+            fragments.push(FormattedTextFragment::hyperlink(&tr!("agent-loading-learn-more"), link_target));
         }
 
         let formatted_text = FormattedText::new(vec![FormattedTextLine::Line(fragments)]);
@@ -153,19 +154,18 @@ fn render_tier_limits_footer(
         return None;
     }
 
-    let mut fragments = vec![FormattedTextFragment::plain_text(format!(
-        "Your agent is currently running on a {} machine. ",
-        specs
-    ))];
+    let mut fragments = vec![FormattedTextFragment::plain_text(
+        tr!("agent-loading-tier-info", specs = &specs),
+    )];
 
     // Get the upgrade URL for the current team
     let upgrade_url = UserWorkspaces::as_ref(app)
         .current_team()
         .map(|team| UserWorkspaces::upgrade_link_for_team(team.uid))?;
 
-    fragments.push(FormattedTextFragment::hyperlink("Upgrade", upgrade_url));
+    fragments.push(FormattedTextFragment::hyperlink(&tr!("agent-loading-upgrade"), upgrade_url));
     fragments.push(FormattedTextFragment::plain_text(
-        " for more powerful cloud agents.",
+        &tr!("agent-loading-upgrade-suffix"),
     ));
 
     let formatted_text = FormattedText::new(vec![FormattedTextLine::Line(fragments)]);
@@ -233,7 +233,7 @@ pub fn render_cloud_mode_error_screen(
 
     // Error title text
     let title_text = Text::new(
-        "Failed to start environment",
+        &tr!("agent-loading-failed"),
         appearance.ui_font_family(),
         appearance.monospace_font_size() + 2.,
     )
@@ -323,7 +323,7 @@ pub fn render_cloud_mode_github_auth_required_screen(
 
     // Title text - "GitHub Authentication Required"
     let title_text = Text::new(
-        "GitHub Authentication Required",
+        &tr!("agent-loading-github-auth-required"),
         appearance.ui_font_family(),
         appearance.monospace_font_size() + 2.,
     )
@@ -333,7 +333,7 @@ pub fn render_cloud_mode_github_auth_required_screen(
 
     // Message text - "Please authenticate with GitHub to continue"
     let message_text = Text::new(
-        "Please authenticate with GitHub to continue",
+        &tr!("agent-loading-github-auth-message"),
         appearance.ui_font_family(),
         appearance.monospace_font_size(),
     )
@@ -345,7 +345,7 @@ pub fn render_cloud_mode_github_auth_required_screen(
     let auth_button = appearance
         .ui_builder()
         .button(ButtonVariant::Accent, auth_button_mouse_state.clone())
-        .with_centered_text_label("Authenticate with GitHub".to_string())
+        .with_centered_text_label(tr!("agent-loading-github-auth-button"))
         .build()
         .on_click(move |_, app, _| {
             app.open_url(&auth_url_clone);
@@ -410,7 +410,7 @@ pub fn render_cloud_mode_cancelled_screen(appearance: &Appearance) -> Box<dyn El
 
     // Title text - "Cloud Agent Run Cancelled"
     let title_text = Text::new(
-        "Cloud Agent Run Cancelled",
+        &tr!("agent-loading-cancelled"),
         appearance.ui_font_family(),
         appearance.monospace_font_size() + 2.,
     )
@@ -420,7 +420,7 @@ pub fn render_cloud_mode_cancelled_screen(appearance: &Appearance) -> Box<dyn El
 
     // Subtitle text - "No cloud environment was started"
     let subtitle_text = Text::new(
-        "No cloud environment was started",
+        &tr!("agent-loading-cancelled-message"),
         appearance.ui_font_family(),
         appearance.monospace_font_size(),
     )

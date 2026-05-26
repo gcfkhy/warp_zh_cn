@@ -19,6 +19,7 @@ use warpui::{Element, Entity, SingletonEntity, TypedActionView, View, ViewContex
 use crate::terminal::ssh::util::InteractiveSshCommand;
 use crate::ui_components::buttons::icon_button;
 use crate::ui_components::icons::Icon;
+use i18n::tr;
 
 pub type FileUploadId = usize;
 
@@ -302,7 +303,7 @@ impl FileUpload {
         if let FileUploadStatus::AwaitingPassword = file.status {
             session_action_row.add_child(
                 FormattedTextElement::from_str(
-                    String::from("Waiting for password input"),
+                    tr!("terminal-ssh-upload-waiting-password"),
                     font_family,
                     font_size,
                 )
@@ -364,10 +365,10 @@ impl FileUpload {
     /// Helper function to `render_file_details` with logic for formatted text
     /// assembly.
     fn render_file_detail_text(&self, file: &FileUploadInfo) -> FormattedText {
-        let status_string = match file.status {
-            FileUploadStatus::Started | FileUploadStatus::AwaitingPassword => "Uploading",
-            FileUploadStatus::Completed { successful: true } => "Uploaded",
-            FileUploadStatus::Completed { successful: false } => "Failed to upload",
+        let status_string: String = match file.status {
+            FileUploadStatus::Started | FileUploadStatus::AwaitingPassword => tr!("terminal-ssh-upload-uploading"),
+            FileUploadStatus::Completed { successful: true } => tr!("terminal-ssh-upload-uploaded"),
+            FileUploadStatus::Completed { successful: false } => tr!("terminal-ssh-upload-failed"),
         };
 
         let mut file_iter = file.local_file_paths.iter().peekable();
@@ -392,7 +393,7 @@ impl FileUpload {
         }
 
         let mut dest_fragments = vec![
-            FormattedTextFragment::plain_text(" to "),
+            FormattedTextFragment::plain_text(tr!("terminal-ssh-upload-to")),
             FormattedTextFragment::inline_code(&file.remote_host),
         ];
         if let Some(remote_path) = &file.remote_dest_path {
@@ -416,7 +417,7 @@ impl FileUpload {
         let ui_builder = appearance.ui_builder().clone();
         Container::new(
             icon_button(appearance, Icon::X, true, file.clear_button.clone())
-                .with_tooltip(move || ui_builder.tool_tip("Clear upload".into()).build().finish())
+                .with_tooltip(move || ui_builder.tool_tip(tr!("terminal-ssh-upload-clear").into()).build().finish())
                 .build()
                 .on_click(move |event_ctx, _, _| {
                     event_ctx
@@ -434,10 +435,10 @@ impl FileUpload {
         appearance: &Appearance,
     ) -> Box<dyn Element> {
         let view_session_text = if file.local_session_open {
-            String::from("Close")
+            tr!("terminal-ssh-upload-close")
         } else {
-            String::from("View")
-        } + " upload session";
+            tr!("terminal-ssh-upload-view")
+        } + &tr!("terminal-ssh-upload-session");
         let upload_id = file.upload_id;
         Container::new(
             appearance
@@ -460,7 +461,7 @@ impl FileUpload {
             FormattedTextElement::new(
                 FormattedText::new(vec![FormattedTextLine::Heading(FormattedTextHeader {
                     heading_size: 3,
-                    text: vec![FormattedTextFragment::plain_text("File Uploads")],
+                    text: vec![FormattedTextFragment::plain_text(tr!("terminal-ssh-upload-header"))],
                 })]),
                 appearance.ui_font_size(),
                 appearance.ui_font_family(),

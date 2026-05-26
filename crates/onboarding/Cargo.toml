@@ -16,6 +16,7 @@ bin = ["warpui/log_named_telemetry_events"]
 
 [dependencies]
 ai.workspace = true
+i18n.workspace = true
 anyhow.workspace = true
 cfg-if.workspace = true
 instant.workspace = true

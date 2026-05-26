@@ -15,6 +15,7 @@ use warpui::{
     ViewContext,
 };
 
+use i18n::tr;
 use super::toggle_card::{render_toggle_card, ToggleCardSpec};
 use super::OnboardingSlide;
 use crate::model::{OnboardingStateEvent, OnboardingStateModel};
@@ -136,7 +137,7 @@ impl ThirdPartySlide {
     fn render_header(&self, appearance: &Appearance) -> Box<dyn Element> {
         let title = appearance
             .ui_builder()
-            .paragraph("Customize third party agents")
+            .paragraph(&tr!("onboarding-customize-third-party"))
             .with_style(UiComponentStyles {
                 font_size: Some(36.),
                 font_weight: Some(Weight::Medium),
@@ -146,7 +147,7 @@ impl ThirdPartySlide {
             .finish();
 
         let subtitle = FormattedTextElement::from_str(
-            "Select defaults for using agents like Claude Code, Codex, and Gemini.",
+            &tr!("onboarding-third-party-subtitle"),
             appearance.ui_font_family(),
             16.,
         )
@@ -177,11 +178,11 @@ impl ThirdPartySlide {
         let card = render_toggle_card(
             appearance,
             ToggleCardSpec {
-                title: "CLI agent toolbar",
+                title: tr!("onboarding-cli-toolbar"),
                 is_expanded: is_selected,
                 is_left_selected: cli_toolbar_enabled,
-                left_label: "Enabled",
-                right_label: "Disabled",
+                left_label: tr!("state-enabled"),
+                right_label: tr!("state-disabled"),
                 card_mouse_state: self.cli_toolbar_card_mouse_state.clone(),
                 on_expand: Box::new(|ctx, _, _| {
                     ctx.dispatch_typed_action(ThirdPartySlideAction::SelectSettingCard {
@@ -225,11 +226,11 @@ impl ThirdPartySlide {
         let card = render_toggle_card(
             appearance,
             ToggleCardSpec {
-                title: "Notifications",
+                title: tr!("onboarding-notifications"),
                 is_expanded: is_selected,
                 is_left_selected: show_agent_notifications,
-                left_label: "Enabled",
-                right_label: "Disabled",
+                left_label: tr!("state-enabled"),
+                right_label: tr!("state-disabled"),
                 card_mouse_state: self.notifications_card_mouse_state.clone(),
                 on_expand: Box::new(|ctx, _, _| {
                     ctx.dispatch_typed_action(ThirdPartySlideAction::SelectSettingCard {
@@ -271,7 +272,7 @@ impl ThirdPartySlide {
         let back_button = self.back_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Back".into()),
+                content: button::Content::Label(tr!("button-back")),
                 theme: &button::themes::Naked,
                 options: button::Options {
                     on_click: Some(Box::new(|ctx, _app, _pos| {
@@ -286,7 +287,7 @@ impl ThirdPartySlide {
         let next_button = self.next_button.render(
             appearance,
             button::Params {
-                content: button::Content::Label("Next".into()),
+                content: button::Content::Label(tr!("button-next")),
                 theme: &button::themes::Primary,
                 options: button::Options {
                     keystroke: Some(enter),

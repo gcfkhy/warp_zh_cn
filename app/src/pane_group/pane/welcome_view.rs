@@ -28,6 +28,7 @@ use crate::search::welcome_palette::{Event as WelcomePaletteEvent, WelcomePalett
 use crate::util::bindings::{keybinding_name_to_display_string, BindingGroup, CustomAction};
 use crate::view_components::DismissibleToast;
 use crate::workspace::{ToastStack, Workspace};
+use i18n::tr;
 
 pub fn init(app: &mut AppContext) {
     use warpui::keymap::macros::*;
@@ -35,7 +36,7 @@ pub fn init(app: &mut AppContext) {
     app.register_editable_bindings([
         EditableBinding::new(
             "workspace:new_tab",
-            "Terminal session",
+            &tr!("welcome-terminal-session"),
             WelcomeViewAction::CreateTerminalSession,
         )
         .with_context_predicate(id!("WelcomeView"))
@@ -44,7 +45,7 @@ pub fn init(app: &mut AppContext) {
         .with_enabled(|| ContextFlag::CreateNewSession.is_enabled()),
         EditableBinding::new(
             "welcome_view:open_project",
-            "Add repository",
+            &tr!("welcome-add-repository"),
             WelcomeViewAction::OpenProject,
         )
         .with_context_predicate(id!("WelcomeView"))
@@ -71,7 +72,7 @@ pub struct WelcomeView {
 
 impl WelcomeView {
     pub fn new(startup_directory: Option<PathBuf>, ctx: &mut ViewContext<Self>) -> Self {
-        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new("New tab"));
+        let pane_configuration = ctx.add_model(|_ctx| PaneConfiguration::new(&tr!("welcome-new-tab")));
         let window_id = ctx.window_id();
         let view_id = ctx.view_id();
         let palette = ctx.add_typed_action_view(|ctx| {
@@ -290,7 +291,7 @@ impl BackingView for WelcomeView {
         _ctx: &view::HeaderRenderContext<'_>,
         _app: &AppContext,
     ) -> view::HeaderContent {
-        view::HeaderContent::simple("New tab")
+        view::HeaderContent::simple(&tr!("welcome-new-tab"))
     }
 
     fn set_focus_handle(&mut self, focus_handle: PaneFocusHandle, _ctx: &mut ViewContext<Self>) {

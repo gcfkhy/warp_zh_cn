@@ -1,3 +1,4 @@
+use i18n::tr;
 use pathfinder_geometry::vector::vec2f;
 use warp_core::ui::appearance::Appearance;
 use warpui::elements::{
@@ -65,8 +66,12 @@ impl View for OnboardingDriveSharingBlock {
         let font_family = appearance.monospace_font_family();
         let font_size = appearance.monospace_font_size();
 
+        let title_text = tr!("onboarding-drive-title");
+        let body_text_1 = tr!("onboarding-drive-desc-1");
+        let body_text_2 = tr!("onboarding-drive-desc-2");
+
         let header = Container::new(
-            Text::new(TITLE_TEXT, font_family, font_size)
+            Text::new(&title_text, font_family, font_size)
                 .with_color(appearance.theme().accent().into_solid())
                 .with_style(Properties::default().weight(Weight::Bold))
                 .finish(),
@@ -76,11 +81,11 @@ impl View for OnboardingDriveSharingBlock {
 
         let mut content = Flex::column().with_child(header);
 
-        for paragraph in BODY_TEXT.iter() {
+        for paragraph in [body_text_1.as_str(), body_text_2.as_str()] {
             content.add_child(
                 appearance
                     .ui_builder()
-                    .paragraph(*paragraph)
+                    .paragraph(paragraph)
                     .with_style(UiComponentStyles {
                         font_family_id: Some(font_family),
                         font_size: Some(font_size),
@@ -93,8 +98,8 @@ impl View for OnboardingDriveSharingBlock {
         }
 
         let button_label = match CloudModel::as_ref(app).get_by_uid(&self.object_id.uid()) {
-            Some(object) => format!("Share {}", object.display_name()),
-            None => format!("Share this {}", self.object_id.object_type()),
+            Some(object) => tr!("onboarding-drive-share-btn", name = object.display_name()),
+            None => tr!("onboarding-drive-share-btn", name = self.object_id.object_type()),
         };
         let object_id = self.object_id;
         let button = appearance

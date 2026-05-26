@@ -19,6 +19,7 @@ use crate::ai::blocklist::inline_action::inline_action_header::INLINE_ACTION_HOR
 use crate::ai::blocklist::inline_action::inline_action_icons::icon_size;
 use crate::appearance::Appearance;
 use crate::ui_components::blended_colors;
+use i18n::tr;
 
 #[derive(Debug, Clone)]
 pub struct LSPServerInfo {

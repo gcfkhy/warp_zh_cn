@@ -287,6 +287,7 @@ impl Display for SettingsSection {
             SettingsSection::OzCloudAPIKeys => tr!("setting-section-oz-cloud-api-keys"),
             SettingsSection::AI => tr!("setting-section-ai"),
             SettingsSection::Code => tr!("setting-section-code"),
+            SettingsSection::Warpify => tr!("setting-section-warpify"),
         };
         write!(f, "{name}")
     }

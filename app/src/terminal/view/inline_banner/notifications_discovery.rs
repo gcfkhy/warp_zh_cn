@@ -9,6 +9,7 @@ use super::{
 };
 use crate::appearance::Appearance;
 use crate::terminal::session_settings::NotificationsMode;
+use i18n::tr;
 use crate::terminal::view::{InlineBannerId, NotificationsTrigger, TerminalAction};
 
 #[derive(Clone, Copy, Debug, Serialize)]
@@ -45,7 +46,7 @@ pub fn render_inline_notifications_discovery_banner(
     let active_ui_text_color = appearance.theme().active_ui_text_color().into_solid();
 
     let learn_more_button = InlineBannerTextButton {
-        text: "Learn more".to_string(),
+        text: tr!("banner-notifications-learn-more"),
         text_color: active_ui_text_color,
         button_state: InlineBannerButtonState {
             on_click_event: TerminalAction::NotificationsDiscoveryBanner(
@@ -58,7 +59,7 @@ pub fn render_inline_notifications_discovery_banner(
         variant: InlineBannerTextButtonVariant::Secondary,
     };
     let troubleshoot_button = InlineBannerTextButton {
-        text: "Troubleshoot".to_string(),
+        text: tr!("banner-notifications-troubleshoot"),
         text_color: active_ui_text_color,
         button_state: InlineBannerButtonState {
             on_click_event: TerminalAction::NotificationsDiscoveryBanner(
@@ -73,19 +74,19 @@ pub fn render_inline_notifications_discovery_banner(
 
     let (title, buttons) = match notifications_mode {
         NotificationsMode::Dismissed => (
-            "We won't show this banner again, but you can always go to Settings to enable notifications.",
+            tr!("banner-notifications-dismissed"),
             vec![],
         ),
         NotificationsMode::Disabled => (
-            "Notifications were turned off, but you can always go to Settings to enable notifications.",
+            tr!("banner-notifications-disabled"),
             vec![],
         ),
         NotificationsMode::Unset => (
-            trigger.discovery_banner_copy(),
+            trigger.discovery_banner_copy().to_owned(),
             vec![
                 learn_more_button,
                 InlineBannerTextButton {
-                    text: "Enable".to_string(),
+                    text: tr!("banner-notifications-enable"),
                     text_color: active_ui_text_color,
                     button_state: InlineBannerButtonState {
                         on_click_event: TerminalAction::NotificationsDiscoveryBanner(
@@ -105,20 +106,20 @@ pub fn render_inline_notifications_discovery_banner(
             let (title, docs_button) = match request_outcome {
                 Some(request_outcome) => match request_outcome {
                     RequestPermissionsOutcome::Accepted => (
-                        "Success! You are now ready to receive desktop notifications.",
+                        tr!("banner-notifications-success"),
                         learn_more_button,
                     ),
                     RequestPermissionsOutcome::PermissionsDenied => (
-                        "Warp was denied permissions to send you notifications.",
+                        tr!("banner-notifications-permissions-denied"),
                         troubleshoot_button,
                     ),
                     RequestPermissionsOutcome::OtherError { .. } => (
-                        "Something went wrong while requesting permissions.",
+                        tr!("banner-notifications-error"),
                         troubleshoot_button,
                     ),
                 },
                 None => (
-                    "Don't forget to 'Allow' the permissions request to finish setting up notifications.",
+                    tr!("banner-notifications-allow-reminder"),
                     learn_more_button,
                 ),
             };
@@ -128,7 +129,7 @@ pub fn render_inline_notifications_discovery_banner(
                 vec![
                     docs_button,
                     InlineBannerTextButton {
-                        text: "Configure notifications".to_string(),
+                        text: tr!("banner-notifications-configure"),
                         text_color: active_ui_text_color,
                         button_state: InlineBannerButtonState {
                             on_click_event: TerminalAction::NotificationsDiscoveryBanner(
@@ -156,7 +157,7 @@ pub fn render_inline_notifications_discovery_banner(
         InlineBannerStyle::CallToAction,
         appearance,
         InlineBannerContent {
-            title: title.to_owned(),
+            title: title,
             buttons,
             close_button: Some(close_button),
             ..Default::default()

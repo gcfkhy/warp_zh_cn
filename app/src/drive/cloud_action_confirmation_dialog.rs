@@ -5,6 +5,8 @@ use warpui::ui_components::button::ButtonVariant;
 use warpui::ui_components::components::{Coords, UiComponent, UiComponentStyles};
 use warpui::{AppContext, Element, Entity, SingletonEntity, TypedActionView, View, ViewContext};
 
+use i18n::tr;
+
 use crate::appearance::Appearance;
 use crate::ui_components::blended_colors;
 use crate::ui_components::dialog::{dialog_styles, Dialog};
@@ -15,21 +17,6 @@ const BUTTON_BORDER_RADIUS: f32 = 4.;
 const BORDER_WIDTH: f32 = 1.;
 
 const DIALOG_WIDTH: f32 = 450.;
-const CANCEL_TEXT: &str = "Cancel";
-
-const DELETE_TEAM_TITLE_TEXT: &str = "Are you sure you want to delete this team?";
-const LEAVE_TEAM_TITLE_TEXT: &str = "Are you sure you want to leave this team?";
-const REMOVE_TEAM_MEMBER_TITLE_TEXT: &str = "Are you sure you want to remove this member?";
-
-const DELETE_TEAM_BODY_TEXT: &str = "Deleting this team will permanently delete it and all of its related content, including billing information or credits. You will not be able to restore them.";
-const LEAVE_TEAM_BODY_TEXT: &str = "You will need to be reinvited in order to rejoin.";
-const LEAVE_TEAM_RELOAD_CREDITS_BODY_TEXT: &str = "If you leave this team, you’ll lose access to any remaining reload credits tied to it. You’ll regain access to any unused, non-expired credits if you rejoin the same team later.";
-const REMOVE_TEAM_MEMBER_RELOAD_CREDITS_BODY_TEXT: &str = "This member will lose access to any remaining reload credits tied to this team. If they rejoin later, they’ll regain access to any unused, non-expired credits.";
-
-const DELETE_TEAM_CONFIRM_TEXT: &str = "Yes, delete";
-const LEAVE_TEAM_CONFIRM_TEXT: &str = "Yes, leave";
-const LEAVE_TEAM_RELOAD_CREDITS_CONFIRM_TEXT: &str = "Leave Team";
-const REMOVE_TEAM_MEMBER_RELOAD_CREDITS_CONFIRM_TEXT: &str = "Remove Member";
 
 pub enum CloudActionConfirmationDialogEvent {
     Cancel,
@@ -81,11 +68,11 @@ impl CloudActionConfirmationDialog {
         match self.variant {
             CloudActionConfirmationDialogVariant::LeaveTeam
             | CloudActionConfirmationDialogVariant::LeaveTeamReloadCredits => {
-                LEAVE_TEAM_TITLE_TEXT.to_string()
+                tr!("drive-leave-team-title")
             }
-            CloudActionConfirmationDialogVariant::DeleteTeam => DELETE_TEAM_TITLE_TEXT.to_string(),
+            CloudActionConfirmationDialogVariant::DeleteTeam => tr!("drive-delete-team-title"),
             CloudActionConfirmationDialogVariant::RemoveTeamMemberReloadCredits => {
-                REMOVE_TEAM_MEMBER_TITLE_TEXT.to_string()
+                tr!("drive-remove-member-title")
             }
             CloudActionConfirmationDialogVariant::None => String::new(),
         }
@@ -93,13 +80,13 @@ impl CloudActionConfirmationDialog {
 
     fn body_text(&self) -> String {
         match self.variant {
-            CloudActionConfirmationDialogVariant::LeaveTeam => LEAVE_TEAM_BODY_TEXT.to_string(),
-            CloudActionConfirmationDialogVariant::DeleteTeam => DELETE_TEAM_BODY_TEXT.to_string(),
+            CloudActionConfirmationDialogVariant::LeaveTeam => tr!("drive-leave-team-body"),
+            CloudActionConfirmationDialogVariant::DeleteTeam => tr!("drive-delete-team-body"),
             CloudActionConfirmationDialogVariant::LeaveTeamReloadCredits => {
-                LEAVE_TEAM_RELOAD_CREDITS_BODY_TEXT.to_string()
+                tr!("drive-leave-team-reload-credits-body")
             }
             CloudActionConfirmationDialogVariant::RemoveTeamMemberReloadCredits => {
-                REMOVE_TEAM_MEMBER_RELOAD_CREDITS_BODY_TEXT.to_string()
+                tr!("drive-remove-member-reload-credits-body")
             }
             CloudActionConfirmationDialogVariant::None => String::new(),
         }
@@ -107,15 +94,13 @@ impl CloudActionConfirmationDialog {
 
     fn confirm_button_text(&self) -> String {
         match self.variant {
-            CloudActionConfirmationDialogVariant::LeaveTeam => LEAVE_TEAM_CONFIRM_TEXT.to_string(),
-            CloudActionConfirmationDialogVariant::DeleteTeam => {
-                DELETE_TEAM_CONFIRM_TEXT.to_string()
-            }
+            CloudActionConfirmationDialogVariant::LeaveTeam => tr!("drive-yes-leave"),
+            CloudActionConfirmationDialogVariant::DeleteTeam => tr!("drive-yes-delete"),
             CloudActionConfirmationDialogVariant::LeaveTeamReloadCredits => {
-                LEAVE_TEAM_RELOAD_CREDITS_CONFIRM_TEXT.to_string()
+                tr!("drive-leave-team-confirm")
             }
             CloudActionConfirmationDialogVariant::RemoveTeamMemberReloadCredits => {
-                REMOVE_TEAM_MEMBER_RELOAD_CREDITS_CONFIRM_TEXT.to_string()
+                tr!("drive-remove-member-confirm")
             }
             CloudActionConfirmationDialogVariant::None => String::new(),
         }
@@ -173,7 +158,7 @@ impl View for CloudActionConfirmationDialog {
                 padding: Some(Coords::uniform(BUTTON_PADDING)),
                 ..Default::default()
             })
-            .with_text_label(CANCEL_TEXT.into())
+            .with_text_label(tr!("button-cancel"))
             .build()
             .with_cursor(Cursor::PointingHand)
             .on_click(move |ctx, _, _| {

@@ -53,6 +53,7 @@ use crate::themes::theme::WarpTheme;
 use crate::ui_components::icons::Icon;
 use crate::workflows::{WorkflowSelectionSource, WorkflowSource, WorkflowType};
 use crate::workspace::WorkspaceAction;
+use i18n::tr;
 
 /// Position ID for the command palette list.
 const PALETTE_LIST_SAVE_POSITION_ID: &str = "welcome_palette:list";
@@ -269,7 +270,7 @@ impl WelcomePalette {
             SearchBar::new(
                 mixer.clone(),
                 search_bar_state.clone(),
-                "Code, build, or search for anything...",
+                &tr!("welcome-search-placeholder"),
                 Self::create_query_result_renderer,
                 ctx,
             )
@@ -286,7 +287,7 @@ impl WelcomePalette {
         });
 
         let placeholder_element = QueryResultRenderer::new(
-            MatchedBinding::placeholder("No results found".into()).into(),
+            MatchedBinding::placeholder(tr!("welcome-no-results")).into(),
             "welcome_palette:no_results".into(),
             |_, _, _| {},
             *styles::QUERY_RESULT_RENDERER_STYLES,
@@ -700,8 +701,8 @@ impl WelcomePalette {
             .with_text_and_icon_label(TextAndIcon::new(
                 TextAndIconAlignment::IconFirst,
                 match &self.open_project_keybinding {
-                    Some(keystroke) => format!("Add repository {keystroke}"),
-                    None => "Add repository".to_string(),
+                    Some(keystroke) => tr!("welcome-add-repo-btn", keystroke = keystroke.as_str()),
+                    None => tr!("welcome-add-repository"),
                 },
                 Icon::Plus.to_warpui_icon(theme.foreground()),
                 MainAxisSize::Max,
@@ -723,8 +724,8 @@ impl WelcomePalette {
             .with_text_and_icon_label(TextAndIcon::new(
                 TextAndIconAlignment::IconFirst,
                 match &self.terminal_session_keybinding {
-                    Some(keystroke) => format!("Terminal session {keystroke}"),
-                    None => "Terminal session".to_string(),
+                    Some(keystroke) => tr!("welcome-terminal-btn", keystroke = keystroke.as_str()),
+                    None => tr!("welcome-terminal-session"),
                 },
                 Icon::Terminal.to_warpui_icon(theme.foreground()),
                 MainAxisSize::Max,

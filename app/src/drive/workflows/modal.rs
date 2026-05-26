@@ -2,6 +2,7 @@ use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 
+use i18n::tr;
 use itertools::Itertools;
 use pathfinder_geometry::vector::vec2f;
 use string_offset::CharOffset;
@@ -83,20 +84,7 @@ const DIALOG_WIDTH: f32 = 460.;
 const AI_ASSIST_BUTTON_SIZE: f32 = 96.;
 const SCROLLBAR_WIDTH: ScrollbarWidth = ScrollbarWidth::Auto;
 
-const TITLE_PLACEHOLDER_TEXT: &str = "Untitled workflow";
-const DESCRIPTION_PLACEHOLDER_TEXT: &str = "Add a description";
-const COMMAND_EDITOR_PLACEHOLDER_TEXT: &str =
-    "echo \"Hello {{your_name}}\" # insert arguments with curly braces\n# enter a single-line command or an entire shell script";
-const ARGUMENT_BUTTON_TEXT: &str = "New argument";
-const ARGUMENT_DESCRIPTION_PLACEHOLDER_TEXT: &str = "Description";
-const ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT: &str = "Default value (optional)";
-const SAVE_BUTTON_TEXT: &str = "Save workflow";
-const AI_ASSIST_BUTTON_TEXT: &str = "Autofill";
-const AI_ASSIST_LOADING_TEXT: &str = "Loading";
 const DEFAULT_ARGUMENT_PREFIX: &str = "argument";
-const UNSAVED_CHANGES_TEXT: &str = "You have unsaved changes.";
-const KEEP_EDITING_TEXT: &str = "Keep editing";
-const DISCARD_CHANGES_TEXT: &str = "Discard changes";
 
 #[derive(Default)]
 struct MouseStateHandles {
@@ -217,7 +205,7 @@ impl WorkflowModal {
             ctx,
             Some(header_font_size),
             Some(ui_font_family),
-            Some(TITLE_PLACEHOLDER_TEXT),
+            Some(&tr!("workflow-untitled")),
             false, /* vim_keybindings */
             true,  /* single_line */
         );
@@ -230,7 +218,7 @@ impl WorkflowModal {
             ctx,
             Some(DESCRIPTION_FONT_SIZE),
             Some(ui_font_family),
-            Some(DESCRIPTION_PLACEHOLDER_TEXT),
+            Some(&tr!("workflow-add-description")),
             false, /* vim_keybindings */
             false, /* single_line */
         );
@@ -243,7 +231,7 @@ impl WorkflowModal {
             ctx,
             Some(CONTENT_EDITOR_FONT_SIZE),
             None,
-            Some(COMMAND_EDITOR_PLACEHOLDER_TEXT),
+            Some(&tr!("workflow-command-placeholder")),
             true,  /* vim_keybindings */
             false, /* single_line */
         );
@@ -1196,7 +1184,7 @@ impl WorkflowModal {
                                 ctx,
                                 Some(ARGUMENT_EDITOR_FONT_SIZE),
                                 Some(ui_font_family),
-                                Some(ARGUMENT_DESCRIPTION_PLACEHOLDER_TEXT),
+                                Some(&tr!("workflow-description")),
                                 false, /* vim_keybindings */
                                 false,
                             );
@@ -1212,7 +1200,7 @@ impl WorkflowModal {
                                 ctx,
                                 Some(ARGUMENT_EDITOR_FONT_SIZE),
                                 Some(ui_font_family),
-                                Some(ARGUMENT_DEFAULT_VALUE_PLACEHOLDER_TEXT),
+                                Some(&tr!("workflow-default-value")),
                                 false, /* vim_keybindings */
                                 false,
                             );
@@ -1639,7 +1627,7 @@ impl WorkflowModal {
                 padding: Some(Coords::uniform(BUTTON_PADDING)),
                 ..Default::default()
             })
-            .with_text_label(ARGUMENT_BUTTON_TEXT.into());
+            .with_text_label(tr!("workflow-new-argument"));
 
         if self.is_new_argument_button_disabled() {
             new_argument_button = new_argument_button.disabled();

@@ -8,6 +8,8 @@ use warpui::{
     AppContext, Element, Entity, SingletonEntity, TypedActionView, View, ViewContext, ViewHandle,
 };
 
+use i18n::tr;
+
 use crate::ai::agent::icons::yellow_stop_icon;
 use crate::ai::blocklist::block::keyboard_navigable_buttons::{
     simple_navigation_button, KeyboardNavigableButtons,
@@ -19,8 +21,8 @@ use crate::ai::blocklist::inline_action::inline_action_icons::cancelled_icon;
 use crate::ai::blocklist::inline_action::requested_action::RenderableAction;
 use crate::appearance::Appearance;
 
-const EXPLANATION_TEXT: &str = "Would you like to create an environment for this project so you can run cloud agents in it? The agent will guide you through choosing GitHub repos, configuring a Docker image, and specifying startup commands.";
-const NO_REPOS_HELP_TEXT: &str = "If you want to create an environment with repos, rerun this command and pass in file paths or GitHub links as arguments, e.g. \"/create-environment <filepath> <GitHub URL>\".";
+fn explanation_text() -> String { tr!("env-setup-explanation") }
+fn no_repos_help_text() -> String { tr!("env-setup-no-repos-help") }
 
 #[derive(Debug, Clone)]
 pub enum InitEnvironmentBlockAction {
@@ -85,7 +87,7 @@ impl InitEnvironmentBlock {
             ),
             // Skip button
             simple_navigation_button(
-                "Cancel".to_string(),
+                tr!("env-setup-cancel"),
                 MouseStateHandle::default(),
                 InitEnvironmentBlockAction::Skip,
                 false,
@@ -114,7 +116,7 @@ impl InitEnvironmentBlock {
         // Add help text if we don't have any repos to make it clearer
         if self.repos.is_empty() && !self.use_current_dir {
             let help_text = Text::new(
-                NO_REPOS_HELP_TEXT,
+                &no_repos_help_text(),
                 appearance.ui_font_family(),
                 appearance.monospace_font_size() - 2.,
             )
@@ -131,7 +133,7 @@ impl InitEnvironmentBlock {
 
         RenderableAction::new_with_element(content.finish(), app)
             .with_header(
-                HeaderConfig::new(EXPLANATION_TEXT, app)
+                HeaderConfig::new(&explanation_text(), app)
                     .with_icon(yellow_stop_icon(appearance))
                     .with_corner_radius_override(CornerRadius::with_top(Radius::Pixels(8.)))
                     .with_soft_wrap_title(),
@@ -156,7 +158,7 @@ impl View for InitEnvironmentBlock {
 
         let rendered_step = match &self.setup_state {
             SetupState::Pending { action_view } => self.render_pending_step(action_view, app),
-            SetupState::Skipped => RenderableAction::new("Environment setup cancelled", app)
+            SetupState::Skipped => RenderableAction::new(&tr!("env-setup-cancelled"), app)
                 .with_icon(cancelled_icon(appearance).finish())
                 .with_content_item_spacing()
                 .render(app)

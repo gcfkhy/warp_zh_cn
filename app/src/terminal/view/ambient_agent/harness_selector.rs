@@ -4,6 +4,7 @@
 
 use std::sync::Arc;
 
+use i18n::tr;
 use pathfinder_geometry::vector::vec2f;
 use settings::Setting as _;
 use warp_cli::agent::Harness;
@@ -53,11 +54,8 @@ const MENU_WIDTH: f32 = 208.;
 /// than the default `ui_font_size()` to give the logos more visual presence.
 const ITEM_ICON_SIZE: f32 = 16.;
 
-/// Tooltip string for the closed-state button.
-const BUTTON_TOOLTIP: &str = "Agent harness";
-
-/// Label rendered at the top of the dropdown.
-const MENU_HEADER_LABEL: &str = "Agent harness";
+fn button_tooltip() -> String { tr!("agent-harness-tooltip") }
+fn menu_header_label() -> String { tr!("agent-harness-header") }
 
 /// Actions dispatched by the [`HarnessSelector`].
 #[derive(Clone, Debug, PartialEq)]
@@ -95,7 +93,7 @@ impl HarnessSelector {
                 .with_size(ButtonSize::AgentInputButton)
                 .with_menu(true)
                 .with_disabled_theme(AgentInputButtonTheme)
-                .with_tooltip(BUTTON_TOOLTIP)
+                .with_tooltip(&button_tooltip())
                 .on_click(|ctx| {
                     ctx.dispatch_typed_action(HarnessSelectorAction::ToggleMenu);
                 })
@@ -225,9 +223,9 @@ impl HarnessSelector {
             button.set_disabled(is_locked_to_oz, ctx);
             button.set_tooltip(
                 Some(if is_locked_to_oz {
-                    "This conversation is with the Warp Agent, so the cloud handoff will also use Warp"
+                    &tr!("agent-harness-locked-to-oz")
                 } else {
-                    BUTTON_TOOLTIP
+                    &button_tooltip()
                 }),
                 ctx,
             );
@@ -283,7 +281,7 @@ fn build_menu_items(
     disabled_text_color: pathfinder_color::ColorU,
 ) -> Vec<MenuItem<HarnessSelectorAction>> {
     let header = MenuItem::Header {
-        fields: MenuItemFields::new(MENU_HEADER_LABEL)
+        fields: MenuItemFields::new(menu_header_label())
             .with_font_size_override(HEADER_FONT_SIZE)
             .with_override_text_color(header_text_color)
             .with_padding_override(HEADER_VERTICAL_PADDING, MENU_HORIZONTAL_PADDING)
@@ -312,7 +310,7 @@ fn build_menu_items(
             fields = fields
                 .with_disabled(true)
                 .with_override_text_color(disabled_text_color)
-                .with_tooltip("Disabled by your administrator");
+                .with_tooltip(&tr!("agent-harness-disabled-by-admin"));
         }
         items.push(MenuItem::Item(fields));
     }
