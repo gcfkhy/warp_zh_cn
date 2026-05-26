@@ -1,0 +1,64 @@
+﻿cargo :     Blocking waiting for file lock on artifact directory
+所在位置 行:1 字符: 176
++ ... cd d:/Warp; cargo +stable-x86_64-pc-windows-gnu build -p warp 2>&1 |  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Blocking wa...ifact directory:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Compiling warp_multi_agent_api v0.0.0 (https://github.com/warpdotdev/warp-proto-apis.git?rev=9a2d2425c5d1eb40fb54795
+6e659511906e03f9e#9a2d2425)
+   Compiling html-escape v0.2.13
+   Compiling aws-smithy-http-client v1.1.12
+   Compiling aws-smithy-observability v0.2.6
+   Compiling rust-embed-utils v8.7.2
+   Compiling rust-embed-utils v7.8.1
+   Compiling ignore v0.4.24
+   Compiling darling_core v0.23.0
+   Compiling warp_graphql_schema v0.0.0 (D:\Warp\crates\warp_graphql_schema)
+   Compiling sha-1 v0.10.1
+   Compiling crypto-bigint v0.5.5
+   Compiling repo_metadata v0.1.0 (D:\Warp\crates\repo_metadata)
+error: failed to run custom build command for `warp_multi_agent_api v0.0.0 (https://github.com/warpdotdev/warp-proto-ap
+is.git?rev=9a2d2425c5d1eb40fb547956e659511906e03f9e#9a2d2425)`
+
+Caused by:
+  process didn't exit successfully: `D:\Warp\target\debug\build\warp_multi_agent_api-61365df9dc4c1860\build-script-buil
+d` (exit code: 1)
+  --- stdout
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\attachment.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\citations.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\conversation_data.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\document_content.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\file_content.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\input_context.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\lsp.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\options.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\orchestration.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\request.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\response.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\skill.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\suggestions.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\task.proto
+  cargo:rerun-if-changed=C:\Users\gcfkh\.cargo\git\checkouts\warp-proto-apis-2098b3a955068931\9a2d242\apis\multi_agent\
+v1\todo.proto
+
+  --- stderr
+  Error: Custom { kind: NotFound, error: "Could not find `protoc`. If `protoc` is installed, try setting the `PROTOC` e
+nvironment variable to the path of the `protoc` binary. Try installing `protobuf-compiler` or `protobuf` using your pac
+kage manager. It is also available at https://github.com/protocolbuffers/protobuf/releases  For more information: https
+://docs.rs/prost-build/#sourcing-protoc" }
+warning: build failed, waiting for other jobs to finish...
